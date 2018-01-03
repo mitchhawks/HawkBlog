@@ -1,0 +1,77 @@
+﻿@model IEnumerable<HawkBlog.Models.Post>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostShortDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostSlug)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostContent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostDatePub)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostLastModified)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.isPublished)
+                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostCategory)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostShortDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostSlug)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostDatePub)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostLastModified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isPublished)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostCategory.CatID)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PostID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PostID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PostID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
