@@ -18,39 +18,35 @@
     int prevPage = int.Parse(ViewData["currentPage"].ToString()) - 1;
 }
 
+<div class="blog-header">
+    <div class="container">
+        <h1 class="blog-title">HawkBlog</h1>
+        <p class="lead blog-description">A simple blog system built with ASP.Net Core</p>
+    </div>
+</div>
+
 <main role="main" class="container">
 
     <div class="row">
-        <h1>Blog</h1>
         <div class="col-sm-8 blog-main">
-            @foreach (var item in Model)
+            @await Html.PartialAsync("_PostList", Model)
+            <nav class="blog-pagination">
+                @if (!isFirstPage)
+                {
+                    <a class="btn btn-outline-secondary" href="?page=@prevPage">Previous</a>
+                }
+                @if (!isLastPage)
+                {
+                    <a class="btn btn-outline-primary" href="?page=@nextPage">Next</a>
+                }
+            </nav>
+            @if (isLastPage)
             {
-            
-            <div class="blog-post">
-                <h2 class="blog-post-title">@item.PostTitle</h2>
-                <p class="blog-post-meta">@item.PostDatePub.ToString("D") in <a>@item.PostCategory.CatName</a></p>
-
-                <p>
-                    @item.PostShortDesc<br />
-                    <a class="btn btn-default" asp-action="Details" asp-route-id="@item.PostID">
-                        Continue
-                    </a>
-                </p>
-
-            </div><!-- /.blog-post -->
+                <h5><br />End of Results</h5>
             }
-            @if (!isFirstPage)
-            {
-                <a class="btn btn-outline-secondary" href="?page=@prevPage">Previous</a>
-            }
-            @if (!isLastPage)
-            {
-                <a class="btn btn-outline-primary" href="?page=@nextPage">Next</a>
-            }
-
         </div><!-- /.blog-main -->
 
-        @await Html.PartialAsync("_Sidebar");
+        @await Html.PartialAsync("_Sidebar")
 
     </div><!-- /.row -->
 

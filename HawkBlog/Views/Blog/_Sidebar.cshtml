@@ -4,14 +4,12 @@
         <p>About your blog here.</p>
     </div>
     <div class="sidebar-module">
-        Catagories
+        @await Html.PartialAsync("_CatList")
     </div>
     <div class="sidebar-module">
         <h4>Social</h4>
         <ol class="list-unstyled">
-            <li><a href="#">GitHub</a></li>
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">Facebook</a></li>
+            <li><a href="https://github.com/mitchhawks/HawkBlog">GitHub</a></li>
         </ol>
     </div>
 </aside><!-- /.blog-sidebar -->

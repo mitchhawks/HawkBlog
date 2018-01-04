@@ -1,0 +1,20 @@
+﻿@model IEnumerable<HawkBlog.Models.Post>
+
+@foreach (var item in Model)
+{
+
+    <div class="blog-post">
+        <h2 class="blog-post-title">@item.PostTitle</h2>
+        <p class="blog-post-meta">@item.PostDatePub.ToString("D") in <a>@item.PostCategory.CatName</a></p>
+
+        <p>
+            @item.PostShortDesc
+        </p>
+        <p>
+            <a class="btn btn-default" asp-action="Details" asp-route-id="@item.PostID">
+                Continue Reading...
+            </a>
+        </p>
+
+    </div><!-- /.blog-post -->
+}

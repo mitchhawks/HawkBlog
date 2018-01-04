@@ -29,6 +29,9 @@ namespace HawkBlog.Controllers
             int pageSize = 5;
 
             ViewData["currentPage"] = page;
+
+            ViewData["CatList"] = GetCatList();
+
             var applicationDbContext = _context.Post
                 .Where(p => p.isPublished)
                 .OrderByDescending(p => p.PostDatePub)
@@ -169,6 +172,12 @@ namespace HawkBlog.Controllers
             _context.Post.Remove(post);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public IList<Category> GetCatList()
+        {
+            var categories = _context.Category;
+            return categories.ToList();
         }
 
         private bool PostExists(int id)

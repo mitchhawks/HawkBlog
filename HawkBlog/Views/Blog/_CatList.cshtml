@@ -1,0 +1,10 @@
+﻿<!-- Widget to display categories in sidebar -->
+@{
+    var list = ViewData["CatList"] as List<Category>;
+}
+<h4>Categories</h4>
+
+@foreach (var item in list)
+{
+    <a class="btn btn-default" href="/Blog/Catagory/@item.CatUrlSlug">@item.CatName</a>
+}

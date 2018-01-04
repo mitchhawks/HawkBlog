@@ -24,5 +24,7 @@ namespace HawkBlog.Data
         }
 
         public DbSet<HawkBlog.Models.Post> Post { get; set; }
+
+        public DbSet<HawkBlog.Models.Category> Category { get; set; }
     }
 }
