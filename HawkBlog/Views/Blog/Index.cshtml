@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<HawkBlog.Models.Post>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Blog";
 
     bool isFirstPage = false;
     bool isLastPage = false;
+
+    Category cat = ViewData["CurrentCat"] as Category;
 
     if (int.Parse(ViewData["currentPage"].ToString()) == 1)
     {
@@ -20,34 +22,38 @@
 
 <div class="blog-header">
     <div class="container">
-        <h1 class="blog-title">HawkBlog</h1>
-        <p class="lead blog-description">A simple blog system built with ASP.Net Core</p>
+        @if (cat == null)
+        {
+            <h1 class="blog-title">HawkBlog</h1>
+            <p class="lead blog-description">A simple blog system built with ASP.Net Core</p>
+        }
+        else
+        { 
+            <h1 class="blog-title">@cat.CatName</h1>
+            <p class="lead blog-description">@cat.CatDesc</p>
+        }
     </div>
 </div>
 
-<main role="main" class="container">
-
-    <div class="row">
-        <div class="col-sm-8 blog-main">
-            @await Html.PartialAsync("_PostList", Model)
-            <nav class="blog-pagination">
-                @if (!isFirstPage)
-                {
-                    <a class="btn btn-outline-secondary" href="?page=@prevPage">Previous</a>
-                }
-                @if (!isLastPage)
-                {
-                    <a class="btn btn-outline-primary" href="?page=@nextPage">Next</a>
-                }
-            </nav>
-            @if (isLastPage)
+<div class="row">
+    <div class="col-sm-8 blog-main">
+        @await Html.PartialAsync("_PostList", Model)
+        <nav class="blog-pagination">
+            @if (!isFirstPage)
             {
-                <h5><br />End of Results</h5>
+                <a class="btn btn-outline-secondary" href="?page=@prevPage">Previous</a>
             }
-        </div><!-- /.blog-main -->
+            @if (!isLastPage)
+            {
+                <a class="btn btn-outline-primary" href="?page=@nextPage">Next</a>
+            }
+        </nav>
+        @if (isLastPage)
+        {
+            <h5><br />End of Results</h5>
+        }
+    </div><!-- /.blog-main -->
 
-        @await Html.PartialAsync("_Sidebar")
+    @await Html.PartialAsync("_Sidebar")
 
-    </div><!-- /.row -->
-
-</main><!-- /.container -->
+</div><!-- /.row -->

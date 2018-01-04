@@ -19,7 +19,6 @@ namespace HawkBlog.Controllers
             _context = context;
         }
 
-        // GET: Blog
         public async Task<IActionResult> Index(int page)
         {
             if (page == 0)
@@ -56,6 +55,8 @@ namespace HawkBlog.Controllers
                 return NotFound();
             }
 
+            ViewData["CatList"] = GetCatList();
+
             var post = await _context.Post
                 .Where(p => p.PostDatePub.Year == year && p.PostDatePub.Month == month && p.PostSlug.Equals(slug))
                 .Include(p => p.PostCategory)
@@ -83,17 +84,17 @@ namespace HawkBlog.Controllers
                 return NotFound();
             }
 
-            string cat = _context.Category
+            var cat = _context.Category
                 .Where(m => m.CatUrlSlug == catSlug)
-                .FirstOrDefaultAsync().Result.CatName;
+                .FirstOrDefaultAsync().Result;
 
-            if (cat == null)
+            if (cat.CatName == null)
             {
                 return NotFound();
             }
 
             var posts = _context.Post
-                .Where(p => p.PostCategory.CatName == cat)
+                .Where(p => p.PostCategory.CatName == cat.CatName && p.isPublished)
                 .OrderByDescending(p => p.PostDatePub)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -101,13 +102,15 @@ namespace HawkBlog.Controllers
 
             ViewData["CatList"] = GetCatList();
 
+            ViewData["CurrentCat"] = cat;
+
             float totalPosts = posts.ToList().Count() + 1;
 
             float maxPage = totalPosts / pageSize;
 
             ViewData["maxPages"] = Math.Ceiling(maxPage);
 
-            ViewData["postCount"] = _context.Post.Where(p => p.PostCategory.CatName == cat).Count();
+            ViewData["postCount"] = _context.Post.Where(p => p.PostCategory.CatName == cat.CatName).Count();
 
             return View("Index", await posts.ToListAsync());
 
@@ -116,7 +119,7 @@ namespace HawkBlog.Controllers
         // GET: Blog/Create
         public IActionResult Create()
         {
-            ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatID");
+            ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatName");
             return View();
         }
 
