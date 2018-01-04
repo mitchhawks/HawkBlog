@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HawkBlog.Data;
 using HawkBlog.Models;
+using System.Text.RegularExpressions;
 
 namespace HawkBlog.Controllers
 {
@@ -114,6 +115,82 @@ namespace HawkBlog.Controllers
 
             return View("Index", await posts.ToListAsync());
 
+        }
+
+        [Route("Blog/Search")]
+        public async Task<IActionResult> SearchPosts(string searchTerm, int page)
+        {
+            if (page == 0)
+            {
+                page = 1;
+            }
+            var skip = page * 5 - 5;
+
+            ViewData["currentPage"] = page;
+
+            var results = new List<Result>();
+
+            var list = new List<Post>();
+
+            IEnumerable<Post> posts;
+
+            posts = _context.Post
+                .Where(p => p.isPublished)
+                .Include(p => p.PostCategory);
+
+
+            /*
+             Search Posts
+             Snippet from the Blogifier Engine (https://github.com/blogifierdotnet/Blogifier)
+             */
+            foreach (var item in posts)
+            {
+                var rank = 0;
+                var hits = 0;
+
+                searchTerm = searchTerm.ToLower();
+
+                if (item.PostTitle.ToLower().Contains(searchTerm))
+                {
+                    hits = Regex.Matches(item.PostTitle.ToLower(), searchTerm).Count;
+
+                    rank += hits * 10;
+                }
+                if (item.PostShortDesc.ToLower().Contains(searchTerm))
+                {
+                    hits = Regex.Matches(item.PostShortDesc.ToLower(), searchTerm).Count;
+
+                    rank += hits * 3;
+                }
+                if (item.PostContent.ToLower().Contains(searchTerm))
+                {
+                    rank += Regex.Matches(item.PostContent.ToLower(), searchTerm).Count;
+                }
+
+                if (rank > 0)
+                {
+                    results.Add(new Result { Rank = rank, Item = item });
+                }
+            }
+
+            results = results.OrderByDescending(r => r.Rank).ToList();
+
+            float totalPosts = posts.ToList().Count() + 1;
+
+            float maxPage = totalPosts / 5;
+
+            ViewData["CatList"] = GetCatList();
+
+            ViewData["maxPages"] = Math.Ceiling(maxPage);
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                list.Add(results[i].Item);
+            }
+
+            ViewData["SearchQuery"] = searchTerm;
+
+            return View("Index", await Task.Run(() => list.Skip(skip).Take(5).ToList()));
         }
 
         // GET: Blog/Create
@@ -232,6 +309,13 @@ namespace HawkBlog.Controllers
         private bool PostExists(int id)
         {
             return _context.Post.Any(e => e.PostID == id);
+        }
+
+        public class Result
+        {
+            public int Rank { get; set; }
+
+            public Post Item { get; set; }
         }
     }
 }

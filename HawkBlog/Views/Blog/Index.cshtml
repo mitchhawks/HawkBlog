@@ -7,6 +7,8 @@
 
     Category cat = ViewData["CurrentCat"] as Category;
 
+    string searchTerm = ViewData["SearchQuery"] as string;
+
     if (int.Parse(ViewData["currentPage"].ToString()) == 1)
     {
         isFirstPage = true;
@@ -22,10 +24,15 @@
 
 <div class="blog-header">
     <div class="container">
-        @if (cat == null)
+        @if (cat == null && searchTerm == null)
         {
             <h1 class="blog-title">HawkBlog</h1>
             <p class="lead blog-description">A simple blog system built with ASP.Net Core</p>
+        }
+        else if (searchTerm != null)
+        {
+            <h1 class="blog-title">Search</h1>
+            <p class="lead blog-description">Results for "@searchTerm"</p>
         }
         else
         { 
