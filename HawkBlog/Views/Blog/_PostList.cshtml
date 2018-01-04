@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<HawkBlog.Models.Post>
+@using HawkBlog.Extensions;
+@{ 
+    SlugGenerator slugGen = new SlugGenerator();
+}
 
 @foreach (var item in Model)
 {
+    string url = slugGen.GenPostUrl(item.PostDatePub.Year, item.PostDatePub.Month, item.PostSlug);
 
     <div class="blog-post">
         <h2 class="blog-post-title">@item.PostTitle</h2>
@@ -11,7 +16,7 @@
             @item.PostShortDesc
         </p>
         <p>
-            <a class="btn btn-default" asp-action="Details" asp-route-id="@item.PostID">
+            <a class="btn btn-default" href="@url">
                 Continue Reading...
             </a>
         </p>

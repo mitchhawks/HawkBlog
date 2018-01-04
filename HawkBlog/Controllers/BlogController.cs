@@ -48,23 +48,69 @@ namespace HawkBlog.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Blog/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [Route("Blog/Post/{year}/{month}/{slug}")]
+        public async Task<IActionResult> ViewPost(int year, int month, string slug)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(slug))
             {
                 return NotFound();
             }
 
             var post = await _context.Post
+                .Where(p => p.PostDatePub.Year == year && p.PostDatePub.Month == month && p.PostSlug.Equals(slug))
                 .Include(p => p.PostCategory)
-                .SingleOrDefaultAsync(m => m.PostID == id);
+                .SingleOrDefaultAsync();
             if (post == null)
             {
                 return NotFound();
             }
 
             return View(post);
+        }
+
+        [Route("Blog/Catagory/{catSlug}")]
+        public async Task<IActionResult> GetPostsForCat(string catSlug, int page)
+        {
+            if (page == 0)
+            {
+                page = 1;
+            }
+            int pageSize = 5;
+            ViewData["currentPage"] = page;
+
+            if (string.IsNullOrEmpty(catSlug))
+            {
+                return NotFound();
+            }
+
+            string cat = _context.Category
+                .Where(m => m.CatUrlSlug == catSlug)
+                .FirstOrDefaultAsync().Result.CatName;
+
+            if (cat == null)
+            {
+                return NotFound();
+            }
+
+            var posts = _context.Post
+                .Where(p => p.PostCategory.CatName == cat)
+                .OrderByDescending(p => p.PostDatePub)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(p => p.PostCategory);
+
+            ViewData["CatList"] = GetCatList();
+
+            float totalPosts = posts.ToList().Count() + 1;
+
+            float maxPage = totalPosts / pageSize;
+
+            ViewData["maxPages"] = Math.Ceiling(maxPage);
+
+            ViewData["postCount"] = _context.Post.Where(p => p.PostCategory.CatName == cat).Count();
+
+            return View("Index", await posts.ToListAsync());
+
         }
 
         // GET: Blog/Create
