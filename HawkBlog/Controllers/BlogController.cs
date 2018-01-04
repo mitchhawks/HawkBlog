@@ -20,13 +20,27 @@ namespace HawkBlog.Controllers
         }
 
         // GET: Blog
-        // GET: Posts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page)
         {
+            if (page == 0)
+            {
+                page = 1;
+            }
+            int pageSize = 5;
+
+            ViewData["currentPage"] = page;
             var applicationDbContext = _context.Post
                 .Where(p => p.isPublished)
                 .OrderByDescending(p => p.PostDatePub)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Include(p => p.PostCategory);
+
+            float totalPosts = applicationDbContext.ToList().Count() + 1;
+
+            float maxPage = totalPosts / pageSize;
+
+            ViewData["maxPages"] = Math.Ceiling(maxPage);
 
             return View(await applicationDbContext.ToListAsync());
         }

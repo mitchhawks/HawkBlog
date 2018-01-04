@@ -1,6 +1,21 @@
 ﻿@model IEnumerable<HawkBlog.Models.Post>
 @{
     ViewData["Title"] = "Index";
+
+    bool isFirstPage = false;
+    bool isLastPage = false;
+
+    if (int.Parse(ViewData["currentPage"].ToString()) == 1)
+    {
+        isFirstPage = true;
+    }
+    if (ViewData["currentPage"].ToString() == ViewData["maxPages"].ToString())
+    {
+        isLastPage = true;
+    }
+
+    int nextPage = int.Parse(ViewData["currentPage"].ToString()) + 1;
+    int prevPage = int.Parse(ViewData["currentPage"].ToString()) - 1;
 }
 
 <main role="main" class="container">
@@ -24,43 +39,18 @@
 
             </div><!-- /.blog-post -->
             }
-            <nav class="blog-pagination">
-                <a class="btn btn-outline-primary" href="#">Next</a> <a class="btn btn-outline-secondary" href="#">Previous</a>
-            </nav>
+            @if (!isFirstPage)
+            {
+                <a class="btn btn-outline-secondary" href="?page=@prevPage">Previous</a>
+            }
+            @if (!isLastPage)
+            {
+                <a class="btn btn-outline-primary" href="?page=@nextPage">Next</a>
+            }
 
         </div><!-- /.blog-main -->
 
-        <aside class="col-sm-3 ml-sm-auto blog-sidebar">
-            <div class="sidebar-module sidebar-module-inset">
-                <h4>About</h4>
-                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            </div>
-            <div class="sidebar-module">
-                <h4>Archives</h4>
-                <ol class="list-unstyled">
-                    <li><a href="#">March 2014</a></li>
-                    <li><a href="#">February 2014</a></li>
-                    <li><a href="#">January 2014</a></li>
-                    <li><a href="#">December 2013</a></li>
-                    <li><a href="#">November 2013</a></li>
-                    <li><a href="#">October 2013</a></li>
-                    <li><a href="#">September 2013</a></li>
-                    <li><a href="#">August 2013</a></li>
-                    <li><a href="#">July 2013</a></li>
-                    <li><a href="#">June 2013</a></li>
-                    <li><a href="#">May 2013</a></li>
-                    <li><a href="#">April 2013</a></li>
-                </ol>
-            </div>
-            <div class="sidebar-module">
-                <h4>Elsewhere</h4>
-                <ol class="list-unstyled">
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Facebook</a></li>
-                </ol>
-            </div>
-        </aside>
+        @await Html.PartialAsync("_Sidebar");
 
     </div><!-- /.row -->
 
