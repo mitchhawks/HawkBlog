@@ -13,14 +13,18 @@ namespace HawkBlog.Models
 
         [Required(ErrorMessage = "Post title is required")]
         [Display(Name = "Title")]
+        [StringLength(100)]
         public string PostTitle { get; set; }
 
         [Required(ErrorMessage = "Post description is required")]
         [Display(Name = "Short Description")]
+        [StringLength(240)]
         public string PostShortDesc { get; set; }
 
         [Required(ErrorMessage = "Post slug is required")]
         [Display(Name = "Url Slug")]
+        [StringLength(150)]
+        [RegularExpression("^[a-z0-9-]+$", ErrorMessage = "Slug format not valid.")]
         public string PostSlug { get; set; }
 
         [Required(ErrorMessage = "Post content is required")]

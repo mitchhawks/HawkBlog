@@ -20,9 +20,14 @@ namespace HawkBlog.Controllers
         }
 
         // GET: Blog
+        // GET: Posts
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Post.Include(p => p.PostCategory);
+            var applicationDbContext = _context.Post
+                .Where(p => p.isPublished)
+                .OrderByDescending(p => p.PostDatePub)
+                .Include(p => p.PostCategory);
+
             return View(await applicationDbContext.ToListAsync());
         }
 

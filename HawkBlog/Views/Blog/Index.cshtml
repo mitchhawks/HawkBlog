@@ -1,77 +1,67 @@
 ﻿@model IEnumerable<HawkBlog.Models.Post>
-
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<main role="main" class="container">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.PostTitle)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PostShortDesc)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PostSlug)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PostContent)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PostDatePub)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PostLastModified)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.isPublished)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostCategory)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostShortDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostSlug)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostContent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostDatePub)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostLastModified)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isPublished)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostCategory.CatID)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PostID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PostID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PostID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="row">
+        <h1>Blog</h1>
+        <div class="col-sm-8 blog-main">
+            @foreach (var item in Model)
+            {
+            
+            <div class="blog-post">
+                <h2 class="blog-post-title">@item.PostTitle</h2>
+                <p class="blog-post-meta">@item.PostDatePub.ToString("D") in <a>@item.PostCategory.CatName</a></p>
+
+                <p>
+                    @item.PostShortDesc<br />
+                    <a class="btn btn-default" asp-action="Details" asp-route-id="@item.PostID">
+                        Continue
+                    </a>
+                </p>
+
+            </div><!-- /.blog-post -->
+            }
+            <nav class="blog-pagination">
+                <a class="btn btn-outline-primary" href="#">Next</a> <a class="btn btn-outline-secondary" href="#">Previous</a>
+            </nav>
+
+        </div><!-- /.blog-main -->
+
+        <aside class="col-sm-3 ml-sm-auto blog-sidebar">
+            <div class="sidebar-module sidebar-module-inset">
+                <h4>About</h4>
+                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+            </div>
+            <div class="sidebar-module">
+                <h4>Archives</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">March 2014</a></li>
+                    <li><a href="#">February 2014</a></li>
+                    <li><a href="#">January 2014</a></li>
+                    <li><a href="#">December 2013</a></li>
+                    <li><a href="#">November 2013</a></li>
+                    <li><a href="#">October 2013</a></li>
+                    <li><a href="#">September 2013</a></li>
+                    <li><a href="#">August 2013</a></li>
+                    <li><a href="#">July 2013</a></li>
+                    <li><a href="#">June 2013</a></li>
+                    <li><a href="#">May 2013</a></li>
+                    <li><a href="#">April 2013</a></li>
+                </ol>
+            </div>
+            <div class="sidebar-module">
+                <h4>Elsewhere</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">GitHub</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ol>
+            </div>
+        </aside>
+
+    </div><!-- /.row -->
+
+</main><!-- /.container -->
