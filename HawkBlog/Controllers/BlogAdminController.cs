@@ -19,27 +19,31 @@ namespace HawkBlog.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        [Route("BlogAdmin/Post/Index")]
+        public async Task<IActionResult> PostIndex()
         {
             var applicationDbContext = _context.Post
+                .OrderByDescending(p => p.PostDatePub)
                 .Include(p => p.PostCategory);
 
-            return View(await applicationDbContext.ToListAsync());
+            return View("Post/PostIndex", await applicationDbContext.ToListAsync());
         }
 
         // GET: Blog/Create
-        public IActionResult Create()
+        [Route("BlogAdmin/Post/NewPost")]
+        public IActionResult NewPost()
         {
             ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatName");
-            return View();
+            return View("Post/NewPost");
         }
 
         // POST: Blog/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("BlogAdmin/Post/NewPost")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostID,PostTitle,PostShortDesc,PostSlug,PostContent,isPublished,CatID")] Post post)
+        public async Task<IActionResult> CreatePost([Bind("PostID,PostTitle,PostShortDesc,PostSlug,PostContent,isPublished,CatID")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -47,14 +51,15 @@ namespace HawkBlog.Controllers
                 post.PostLastModified = DateTime.Now;
                 _context.Add(post);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(PostIndex));
             }
             ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatID", post.CatID);
-            return View(post);
+            return View("Post/NewPost", post);
         }
 
+        [Route("BlogAdmin/Post/EditPost/{id}")]
         // GET: Blog/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> EditPost(int? id)
         {
             if (id == null)
             {
@@ -67,15 +72,16 @@ namespace HawkBlog.Controllers
                 return NotFound();
             }
             ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatName", post.CatID);
-            return View(post);
+            return View("Post/EditPost", post);
         }
 
         // POST: Blog/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("BlogAdmin/Post/EditPost/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostID,PostTitle,PostShortDesc,PostSlug,PostContent,PostDatePub,isPublished,CatID")] Post post)
+        public async Task<IActionResult> EditPost(int id, [Bind("PostID,PostTitle,PostShortDesc,PostSlug,PostContent,PostDatePub,isPublished,CatID")] Post post)
         {
             if (id != post.PostID)
             {
@@ -101,14 +107,15 @@ namespace HawkBlog.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(PostIndex));
             }
             ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatID", post.CatID);
-            return View(post);
+            return View("Post/EditPost", post);
         }
 
+        [Route("BlogAdmin/Post/DeletePost/{id}")]
         // GET: Blog/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> DeletePost(int? id)
         {
             if (id == null)
             {
@@ -123,18 +130,19 @@ namespace HawkBlog.Controllers
                 return NotFound();
             }
 
-            return View(post);
+            return View("Post/DeletePost", post);
         }
 
         // POST: Blog/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [Route("BlogAdmin/Post/DeletePost/{id}")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeletePost(int id)
         {
             var post = await _context.Post.SingleOrDefaultAsync(m => m.PostID == id);
             _context.Post.Remove(post);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(PostIndex));
         }
 
         public IList<Category> GetCatList()

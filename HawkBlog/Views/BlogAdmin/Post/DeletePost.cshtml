@@ -1,0 +1,23 @@
+﻿@model HawkBlog.Models.Post
+
+@{
+    Layout = "_DashLayout";
+    ViewData["Title"] = "Delete Post";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete the post "@Html.DisplayNameFor(model => model.PostTitle)"?</h3>
+<div>
+    <form asp-action="DeletePost">
+        <input type="hidden" asp-for="PostID" />
+        <button type="submit" value="Delete" class="btn btn-danger"><i class="fas fa-check"></i> Yes</button> <a class="btn btn-info" asp-action="PostIndex"><i class="fas fa-times"></i> No</a>
+    </form>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#postHomeLink').addClass('active');
+        });
+    </script>
+    }

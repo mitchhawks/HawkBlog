@@ -4,9 +4,10 @@
     Layout = "_DashLayout";
 }
 
-<a asp-action="Index" asp-controller="Dashboard" class="btn btn-primary">Back</a>
+<a asp-action="Index" asp-controller="Dashboard" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</a>
 
 <h2>Manage Posts</h2>
+<a asp-action="NewPost" class="btn btn-primary"><i class="fas fa-edit"></i> New Post</a>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -23,7 +24,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><a asp-action="Edit" asp-route-id="@item.PostID">@Html.DisplayFor(modelItem => item.PostTitle)</a></td>
+                    <td><a asp-action="EditPost" asp-route-id="@item.PostID">@Html.DisplayFor(modelItem => item.PostTitle)</a></td>
                     <td>@Html.DisplayFor(modelItem => item.PostShortDesc)</td>
                     <td>@Html.DisplayFor(modelItem => item.PostDatePub)</td>
                     <td>@Html.DisplayFor(modelItem => item.PostLastModified)</td>

@@ -1,0 +1,70 @@
+﻿@model HawkBlog.Models.Post
+
+@{
+    Layout = "_DashLayout";
+    ViewData["Title"] = "New Post";
+}
+
+<h2>New Post</h2>
+
+<form asp-action="NewPost" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="PostTitle" class="control-label"></label>
+        <input asp-for="PostTitle" class="form-control" />
+        <span asp-validation-for="PostTitle" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PostShortDesc" class="control-label"></label>
+        <input asp-for="PostShortDesc" class="form-control" />
+        <span asp-validation-for="PostShortDesc" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PostSlug" class="control-label"></label>
+        <input asp-for="PostSlug" class="form-control" />
+        <span asp-validation-for="PostSlug" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PostContent" class="control-label"></label>
+        <input asp-for="PostContent" class="form-control" />
+        <span asp-validation-for="PostContent" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                <input asp-for="isPublished" /> @Html.DisplayNameFor(model => model.isPublished)
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="CatID" class="control-label"></label>
+        <select asp-for="CatID" class="form-control" asp-items="ViewBag.CatID"></select>
+    </div>
+    <div class="form-group">
+        <button type="submit" value="Create" class="btn btn-success"><i class="fas fa-check"></i> Create</button> <a class="btn btn-danger" asp-action="PostIndex"><i class="fas fa-arrow-left"></i> Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#postHomeLink').addClass('active');
+        });
+    </script>
+    <script src='~/lib/tinymce/js/tinymce/tinymce.min.js'></script>
+    <script>
+        tinymce.init({
+            selector: '#PostContent',
+            menu: {
+                edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
+                insert: { title: 'Insert', items: 'link media | template hr' },
+                view: { title: 'View', items: 'visualaid' },
+                format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
+                table: { title: 'Table', items: 'inserttable tableprops deletetable | cell row column' },
+                tools: { title: 'Tools', items: 'spellchecker code' }
+            },
+            height: 300
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -4,7 +4,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @{
     var currentUser = await UserManager.GetUserAsync(User);
-    string userName = currentUser.UserName;
+    string userName = currentUser.FirstName;
     ViewData["Title"] = "Dashboard";
     Layout = "_DashLayout";
 }
@@ -14,26 +14,34 @@
 
 <section class="row text-center placeholders">
     <div class="col-6 col-sm-3 placeholder center">
-        <img src="~/images/dash/profile.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <a asp-action="Index" asp-controller="Manage"><h4>Profile</h4></a>
-        <span class="text-muted">View/edit your profile</span>
+        <a asp-action="Index" asp-controller="Manage">
+            <img src="~/images/dash/profile.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+            <h4>Profile</h4>
+            <span class="text-muted">View/edit your profile</span>
+        </a>
     </div>
     @if (User.IsInRole("Admin"))
     {
         <div class="col-6 col-sm-3 placeholder center">
-            <img src="~/images/dash/newpost.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-            <a asp-action="Index" asp-controller="BlogAdmin"><h4>Posts</h4></a>
-            <div class="text-muted">Manage Posts</div>
+            <a asp-action="PostIndex" asp-controller="BlogAdmin">
+                <img src="~/images/dash/newpost.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+                <h4>Posts</h4>
+                <div class="text-muted">Manage Posts</div>
+            </a>
         </div>
         <div class="col-6 col-sm-3 placeholder center">
-            <img src="~/images/dash/userman.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-            <a asp-action="Index" asp-controller="UserAdmin"><h4>User Manager</h4></a>
-            <span class="text-muted">View/edit or delete users</span>
+            <a asp-action="Index" asp-controller="UserAdmin">
+                <img src="~/images/dash/userman.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+                <h4>User Manager</h4>
+                <span class="text-muted">View/edit or delete users</span>
+            </a>
         </div>
         <div class="col-6 col-sm-3 placeholder center">
-            <img src="~/images/dash/category.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-            <a asp-action="Index" asp-controller="BlogAdmin"><h4>Categories</h4></a>
-            <span class="text-muted">Manage Categories</span>
+            <a asp-action="Index" asp-controller="BlogAdmin">
+                <img src="~/images/dash/category.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+                <h4>Categories</h4>
+                <span class="text-muted">Manage Categories</span>
+            </a>
         </div>
     }
 
