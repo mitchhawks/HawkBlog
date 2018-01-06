@@ -1,0 +1,22 @@
+@model string
+@using HawkBlog.Models
+
+@{
+    Layout = "_DashLayout";
+    ViewData["Title"] = "Delete User";
+}
+
+<form asp-action="Delete" role="form">
+    <h4 class="modal-title">Delete User</h4>
+    <p>Are you want to delete @Model?</p>
+    <a asp-action="Index" class="btn btn-default">Cancel</a>
+    <button class="btn btn-danger" type="submit">Delete</button>
+</form>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#userManLink').addClass('active');
+        });
+    </script>
+}
+

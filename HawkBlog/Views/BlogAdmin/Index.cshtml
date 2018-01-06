@@ -4,6 +4,8 @@
     Layout = "_DashLayout";
 }
 
+<a asp-action="Index" asp-controller="Dashboard" class="btn btn-primary">Back</a>
+
 <h2>Manage Posts</h2>
 <div class="table-responsive">
     <table class="table table-striped">
@@ -21,13 +23,13 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.PostTitle)</td>
+                    <td><a asp-action="Edit" asp-route-id="@item.PostID">@Html.DisplayFor(modelItem => item.PostTitle)</a></td>
                     <td>@Html.DisplayFor(modelItem => item.PostShortDesc)</td>
                     <td>@Html.DisplayFor(modelItem => item.PostDatePub)</td>
                     <td>@Html.DisplayFor(modelItem => item.PostLastModified)</td>
                     @if (item.isPublished)
                     {
-                          <td>Yes</td> 
+                        <td>Yes</td>
                     }
                     else
                     {
@@ -39,3 +41,10 @@
         </tbody>
     </table>
 </div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#postHomeLink').addClass('active');
+        });
+    </script>
+}

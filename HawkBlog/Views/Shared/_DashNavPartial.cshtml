@@ -1,43 +1,25 @@
 ﻿<nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
     <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-            <a class="nav-link" href="#">Overview <span class="sr-only">(current)</span></a>
+            <a id="dashHomeLink" class="nav-link" asp-controller="Dashboard" asp-action="Index">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Reports</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Analytics</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Export</a>
+            <a id="profileLink" class="nav-link" asp-controller="Manage" asp-action="Index">Profile</a>
         </li>
     </ul>
 
-    <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-            <a class="nav-link" href="#">Nav item</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Nav item again</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">One more nav</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Another nav item</a>
-        </li>
-    </ul>
-
-    <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-            <a class="nav-link" href="#">Nav item again</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">One more nav</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Another nav item</a>
-        </li>
-    </ul>
+    @if (User.IsInRole("Admin"))
+    {
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a id="postHomeLink" class="nav-link" asp-controller="BlogAdmin" asp-action="Index">Manage Posts</a>
+            </li>
+            <li class="nav-item">
+                <a id="userManLink" class="nav-link" asp-action="Index" asp-controller="UserAdmin">Manage Users</a>
+            </li>
+            <li class="nav-item">
+                <a id="roleManLink" class="nav-link" asp-action="Index" asp-controller="RoleAdmin">Manage Roles</a>
+            </li>
+        </ul>
+    }
 </nav>

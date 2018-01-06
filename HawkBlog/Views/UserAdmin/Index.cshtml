@@ -1,0 +1,52 @@
+﻿@model IEnumerable<UserListViewModel>
+@using HawkBlog.Models
+
+@{
+    Layout = "_DashLayout";
+    ViewData["Title"] = "User Manager";
+}
+
+<h2>User Manager</h2>
+<p>
+    <a asp-action="Create" class="btn btn-primary"><i class="fas fa-user-plus"></i> Add User</a>
+</p>
+
+<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.Email</td>
+                <td>
+                    <a id="editUserModal" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
+                        <i class="fas fa-pencil-alt"></i> Edit
+                    </a>
+                    <a id="deleteUserModal" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                        <i class="fas fa-"></i> Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#userManLink').addClass('active');
+        });
+    </script>
+}
+
+
+
+
+

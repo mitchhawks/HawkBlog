@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
-namespace TribalCardsCore.Controllers
+namespace HawkBlog.Controllers
 {
     [Authorize]
     public class UserAdminController : Controller

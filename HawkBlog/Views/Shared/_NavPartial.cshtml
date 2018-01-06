@@ -7,8 +7,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index">Blog</a></li>
+                <li id="homeButton" class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                <li id="blogButton" class="nav-item"><a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index">Blog</a></li>
                 @await Html.PartialAsync("_LoginPartial")
             </ul>
             <form method="get" role="search" asp-controller="Blog" asp-action="Search" class="form-inline mt-2 mt-md-0">

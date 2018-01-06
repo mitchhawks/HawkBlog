@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ApplicationRoleListViewModel>
+@using HawkBlog.Models
+@using HawkBlog.Data;
+@{
+    Layout = "_DashLayout";
+    ViewData["Title"] = "Role Manager";
+}
+<h2>Role Manager</h2>
+<p>
+    <a id="createRoleModal" asp-action="Create" data-target="#modal-action-application-role" class="btn btn-primary">
+        <i class="fas fa-plus"></i>  Add Role
+    </a>
+</p>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.RoleName</td>
+
+                    <td class="text-center">
+                        <a id="addEditApplicationRoleModal" asp-action="Edit" asp-route-id="@item.Id" data-target="#modal-action-application-role"
+                           class="btn btn-info text-center">
+                            <i class="fas fa-pencil-alt"></i>  Edit
+                        </a>
+
+                        <a id="deleteApplicationRoleModal" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger text-center">
+                            <i class="fas fa-minus-circle"></i>  Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#roleManLink').addClass('active');
+        });
+    </script>
+}

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace TribalCardsCore.Controllers
+namespace HawkBlog.Controllers
 {
     [Authorize]
     public class RoleAdminController : Controller
@@ -97,22 +97,21 @@ namespace TribalCardsCore.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteApplicationRole(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            string name = string.Empty;
             if (!String.IsNullOrEmpty(id))
             {
                 ApplicationRole applicationRole = await roleManager.FindByIdAsync(id);
                 if (applicationRole != null)
                 {
-                    name = applicationRole.Name;
+                    ViewData["name"] = applicationRole.Name;
                 }
             }
-            return PartialView("_DeleteApplicationRole", name);
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteApplicationRole(string id, IFormCollection form)
+        public async Task<IActionResult> Delete(string id, IFormCollection form)
         {
             if(!String.IsNullOrEmpty(id))
             {
@@ -125,7 +124,7 @@ namespace TribalCardsCore.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-                }
+            }
             return View();
         }
     }

@@ -1,0 +1,25 @@
+﻿@model ApplicationRoleViewModel
+@using HawkBlog.Models
+@{
+    Layout = "_DashLayout";
+    ViewData["Title"] = "Add Role";
+}
+<h2>New Role</h2>
+
+<form asp-action="Create" role="form">
+    <div class="form-group">
+        <label asp-for="RoleName" class="col-lg-3 col-sm-3 control-label"></label>
+        <div class="col-lg-6">
+            <input asp-for="RoleName" class="form-control" />
+        </div>
+    </div>
+    <a asp-action="Index" class="btn btn-danger"><i class="fas fa-arrow-left"></i> Cancel</a>
+    <button class="btn btn-success" type="submit"><i class="fas fa-check"></i> Submit</button>
+</form>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#roleManLink').addClass('active');
+        });
+    </script>
+}

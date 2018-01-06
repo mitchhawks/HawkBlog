@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Delete Role";
+    Layout = "_DashLayout";
+}
+<h2>Delete Role</h2>
+<form asp-action="Delete" role="form">
+    <div class="modal-body form-horizontal">
+        Are you want to delete the <strong>@ViewData["name"]</strong> role?
+    </div>
+    <a asp-action="Index" class="btn btn-info"><i class="fas fa-times"></i> No</a>
+    <button class="btn btn-danger" type="submit"><i class="fas fa-check"></i> Yes</button>
+</form>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#roleManLink').addClass('active');
+        });
+    </script>
+}
+

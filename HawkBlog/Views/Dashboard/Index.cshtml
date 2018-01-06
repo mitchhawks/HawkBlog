@@ -18,20 +18,31 @@
         <a asp-action="Index" asp-controller="Manage"><h4>Profile</h4></a>
         <span class="text-muted">View/edit your profile</span>
     </div>
-    <div class="col-6 col-sm-3 placeholder center">
-        <img src="~/images/dash/newpost.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <a asp-action="Index" asp-controller="BlogAdmin"><h4>Post</h4></a>
-        <div class="text-muted">Manage Posts</div>
-    </div>
-    <div class="col-6 col-sm-3 placeholder center">
-        <img src="~/images/dash/profile.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <a asp-action="Index" asp-controller="Manage"><h4>Profile</h4></a>
-        <span class="text-muted">View/edit your profile</span>
-    </div>
-    <div class="col-6 col-sm-3 placeholder center">
-        <img src="~/images/dash/profile.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <h4>Profile</h4>
-        <span class="text-muted">View/edit your profile</span>
-    </div>
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="col-6 col-sm-3 placeholder center">
+            <img src="~/images/dash/newpost.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+            <a asp-action="Index" asp-controller="BlogAdmin"><h4>Post</h4></a>
+            <div class="text-muted">Manage Posts</div>
+        </div>
+        <div class="col-6 col-sm-3 placeholder center">
+            <img src="~/images/dash/userman.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+            <a asp-action="Index" asp-controller="UserAdmin"><h4>User Manager</h4></a>
+            <span class="text-muted">View/edit or delete users</span>
+        </div>
+        <div class="col-6 col-sm-3 placeholder center">
+            <img src="~/images/dash/category.jpg" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+            <a asp-action="Index" asp-controller="BlogAdmin"><h4>Categories</h4></a>
+            <span class="text-muted">Manage Categories</span>
+        </div>
+    }
+
 </section>
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#dashHomeLink').addClass('active');
+        });
+    </script>
+}
