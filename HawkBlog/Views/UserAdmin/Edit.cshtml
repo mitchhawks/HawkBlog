@@ -3,57 +3,43 @@
 
 @{
     Layout = "_DashLayout";
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit User";
 }
 
-<h2>Edit</h2>
+<h2>Edit User</h2>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                @foreach (var item in Model.ApplicationRoles)
+<form asp-action="Edit">
+    <div class="row">
+        <div class="col-md-6">
+            <label asp-for="FirstName" class="control-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="LastName" class="control-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span><br />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span><br />
+    </div>
+
+    <div class="form-group">
+        <h4>Roles</h4>
+        @foreach (var item in Model.ApplicationRoles)
         {
             <input type="checkbox" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
             <label>@item.Text</label>
-}
-                @*
-            <label asp-for="ApplicationRoleId" class="col-lg-3 col-sm-3 control-label"></label>
-            <div class="col-lg-6">
-                <select asp-for="ApplicationRoleId" asp-items="@Model.ApplicationRoles" class="form-control">
-                    <option>Please select</option>
-                </select>
-            </div>
-                *@
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+        }
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-danger"><i class="fas fa-arrow-left"></i> Cancel</a>
+        <button class="btn btn-success" type="submit"><i class="far fa-save"></i> Save</button>
+    </div>
+</form>
 
 @section Scripts{
     <script>

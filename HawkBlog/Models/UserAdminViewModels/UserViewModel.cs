@@ -20,7 +20,7 @@ namespace HawkBlog.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public string Email { get; set; }
-        public List<SelectListItem> ApplicationRoles { get; set; }
+        public IEnumerable<SelectListItem> ApplicationRoles { get; set; }
         [Display(Name = "Role")]
         public string ApplicationRoleId { get; set; }
 

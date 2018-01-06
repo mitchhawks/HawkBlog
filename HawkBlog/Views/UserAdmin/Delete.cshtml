@@ -8,9 +8,9 @@
 
 <form asp-action="Delete" role="form">
     <h4 class="modal-title">Delete User</h4>
-    <p>Are you want to delete @Model?</p>
-    <a asp-action="Index" class="btn btn-default">Cancel</a>
-    <button class="btn btn-danger" type="submit">Delete</button>
+    <p>Are you want to delete user @Model?</p>
+    <a asp-action="Index" class="btn btn-info"><i class="fas fa-times"></i> No</a>
+    <button class="btn btn-danger" type="submit"><i class="fas fa-check"></i> Yes</button>
 </form>
 @section Scripts{
     <script>

@@ -54,7 +54,7 @@ namespace HawkBlog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(UserViewModel model)
+        public async Task<IActionResult> Create(UserViewModel model, params string[] selectedRole)
         {
             if (ModelState.IsValid)
             {
@@ -68,14 +68,18 @@ namespace HawkBlog.Controllers
                 IdentityResult result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    ApplicationRole applicationRole = await roleManager.FindByIdAsync(model.ApplicationRoleId);
-                    if (applicationRole != null)
+                    selectedRole = selectedRole ?? new string[] { };
+
+                    string[] newRoles = selectedRole.ToArray<string>();
+
+                    foreach (string role in newRoles)
                     {
-                        IdentityResult roleResult = await userManager.AddToRoleAsync(user, applicationRole.Name);
-                        if (roleResult.Succeeded)
-                        {
-                            return RedirectToAction("Index");
-                        }
+                        ApplicationRole roleToAdd = await roleManager.FindByIdAsync(role);
+                        result = await userManager.AddToRoleAsync(user, roleToAdd.Name);
+                    }
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
                     }
                 }
             }
@@ -154,40 +158,7 @@ namespace HawkBlog.Controllers
                         {
                             return RedirectToAction("Index");
                         }
-                        /*
-                        if (existingRoleId != model.ApplicationRoleId && existingRoleId != null)
-                        {
-                            IdentityResult roleResult = await userManager.RemoveFromRoleAsync(user, existingRole);
-                            if (roleResult.Succeeded)
-                            {
-                                ApplicationRole applicationRole = await roleManager.FindByIdAsync(model.ApplicationRoleId);
-                                if (applicationRole != null)
-                                {
-                                    IdentityResult newRoleResult = await userManager.AddToRoleAsync(user, applicationRole.Name);
-                                    if (newRoleResult.Succeeded)
-                                    {
-                                        return RedirectToAction("Index");
-                                    }
-                                }
-                            }
-                        }
-                        else if (existingRoleId != model.ApplicationRoleId)
-                        {
-                            IdentityResult roleResult = await userManager.RemoveFromRoleAsync(user, existingRole);
-                            if (roleResult.Succeeded)
-                            {
-                                ApplicationRole applicationRole = await roleManager.FindByIdAsync(model.ApplicationRoleId);
-                                if (applicationRole != null)
-                                {
-                                    IdentityResult newRoleResult = await userManager.AddToRoleAsync(user, applicationRole.Name);
-                                    if (newRoleResult.Succeeded)
-                                    {
-                                        return RedirectToAction("Index");
-                                    }
-                                }
-                            }
-                        }
-                        */
+                    
                     }
                 }
             }
@@ -197,16 +168,16 @@ namespace HawkBlog.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            string name = string.Empty;
+            string userInfo = string.Empty;
             if (!String.IsNullOrEmpty(id))
             {
                 ApplicationUser applicationUser = await userManager.FindByIdAsync(id);
                 if (applicationUser != null)
                 {
-                    name = applicationUser.FirstName + applicationUser.LastName;
+                    userInfo = applicationUser.FirstName + " " + applicationUser.LastName + " with email " + applicationUser.Email;
                 }
             }
-            return View("Delete", name);
+            return View("Delete", userInfo);
         }
 
         [HttpPost]
