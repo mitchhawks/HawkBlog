@@ -44,6 +44,7 @@ namespace HawkBlog.Models
 
         public int CatID { get; set; }
 
+        [Display(Name = "Category")]
         public Category PostCategory { get; set; }
     }
 }

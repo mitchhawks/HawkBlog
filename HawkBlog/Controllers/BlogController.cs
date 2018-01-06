@@ -39,7 +39,7 @@ namespace HawkBlog.Controllers
                 .Take(pageSize)
                 .Include(p => p.PostCategory);
 
-            float totalPosts = applicationDbContext.ToList().Count() + 1;
+            float totalPosts = applicationDbContext.ToList().Count();
 
             float maxPage = totalPosts / pageSize;
 
@@ -105,7 +105,7 @@ namespace HawkBlog.Controllers
 
             ViewData["CurrentCat"] = cat;
 
-            float totalPosts = posts.ToList().Count() + 1;
+            float totalPosts = posts.ToList().Count();
 
             float maxPage = totalPosts / pageSize;
 
@@ -175,7 +175,7 @@ namespace HawkBlog.Controllers
 
             results = results.OrderByDescending(r => r.Rank).ToList();
 
-            float totalPosts = posts.ToList().Count() + 1;
+            float totalPosts = posts.ToList().Count();
 
             float maxPage = totalPosts / 5;
 
@@ -193,122 +193,10 @@ namespace HawkBlog.Controllers
             return View("Index", await Task.Run(() => list.Skip(skip).Take(5).ToList()));
         }
 
-        // GET: Blog/Create
-        public IActionResult Create()
-        {
-            ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatName");
-            return View();
-        }
-
-        // POST: Blog/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostID,PostTitle,PostShortDesc,PostSlug,PostContent,PostDatePub,PostLastModified,isPublished,CatID")] Post post)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatID", post.CatID);
-            return View(post);
-        }
-
-        // GET: Blog/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Post.SingleOrDefaultAsync(m => m.PostID == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-            ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatID", post.CatID);
-            return View(post);
-        }
-
-        // POST: Blog/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostID,PostTitle,PostShortDesc,PostSlug,PostContent,PostDatePub,PostLastModified,isPublished,CatID")] Post post)
-        {
-            if (id != post.PostID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(post);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PostExists(post.PostID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CatID"] = new SelectList(_context.Set<Category>(), "CatID", "CatID", post.CatID);
-            return View(post);
-        }
-
-        // GET: Blog/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Post
-                .Include(p => p.PostCategory)
-                .SingleOrDefaultAsync(m => m.PostID == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            return View(post);
-        }
-
-        // POST: Blog/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var post = await _context.Post.SingleOrDefaultAsync(m => m.PostID == id);
-            _context.Post.Remove(post);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
         public IList<Category> GetCatList()
         {
             var categories = _context.Category;
             return categories.ToList();
-        }
-
-        private bool PostExists(int id)
-        {
-            return _context.Post.Any(e => e.PostID == id);
         }
 
         public class Result

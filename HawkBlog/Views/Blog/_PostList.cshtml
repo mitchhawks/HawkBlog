@@ -10,7 +10,7 @@
 
     <div class="blog-post">
         <h2 class="blog-post-title">@item.PostTitle</h2>
-        <p class="blog-post-meta">@item.PostDatePub.ToString("D") in <a>@item.PostCategory.CatName</a></p>
+        <p class="blog-post-meta">@item.PostDatePub.ToString("D") in <a href="/Blog/Catagory/@item.PostCategory.CatUrlSlug" >@item.PostCategory.CatName</a></p>
 
         <p>
             @item.PostShortDesc

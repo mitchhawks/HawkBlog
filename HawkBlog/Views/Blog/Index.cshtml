@@ -18,6 +18,18 @@
         isLastPage = true;
     }
 
+    string pageUrl;
+
+    if (string.IsNullOrEmpty(searchTerm))
+    {
+        pageUrl = "?page=";
+    }
+    else
+    {
+        pageUrl = "?searchTerm=" + searchTerm + "&page=";
+
+    }
+
     int nextPage = int.Parse(ViewData["currentPage"].ToString()) + 1;
     int prevPage = int.Parse(ViewData["currentPage"].ToString()) - 1;
 }
@@ -43,23 +55,30 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-8 blog-main">
-        @await Html.PartialAsync("_PostList", Model)
-        <nav class="blog-pagination">
-            @if (!isFirstPage)
+    @if (Model.Count() == 0)
+    {
+        <h3>No Posts Found!</h3>
+    }
+    else
+    {
+        <div class="col-sm-8 blog-main">
+            @await Html.PartialAsync("_PostList", Model)
+            <nav class="blog-pagination">
+                @if (!isFirstPage)
+                {
+                    <a class="btn btn-outline-secondary" href="@pageUrl@prevPage">Previous</a>
+                }
+                @if (!isLastPage)
+                {
+                    <a class="btn btn-outline-primary" href="@pageUrl@nextPage">Next</a>
+                }
+            </nav>
+            @if (isLastPage)
             {
-                <a class="btn btn-outline-secondary" href="?page=@prevPage">Previous</a>
+                <h5><br />End of Results</h5>
             }
-            @if (!isLastPage)
-            {
-                <a class="btn btn-outline-primary" href="?page=@nextPage">Next</a>
-            }
-        </nav>
-        @if (isLastPage)
-        {
-            <h5><br />End of Results</h5>
-        }
-    </div><!-- /.blog-main -->
+        </div><!-- /.blog-main -->
+    }
 
     @await Html.PartialAsync("_Sidebar")
 

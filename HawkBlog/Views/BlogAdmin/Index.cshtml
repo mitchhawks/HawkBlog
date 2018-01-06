@@ -1,0 +1,41 @@
+﻿@model IEnumerable<HawkBlog.Models.Post>
+@{
+    ViewData["Title"] = "Manage Posts";
+    Layout = "_DashLayout";
+}
+
+<h2>Manage Posts</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.PostTitle)</th>
+                <th>@Html.DisplayNameFor(model => model.PostShortDesc)</th>
+                <th>@Html.DisplayNameFor(model => model.PostDatePub)</th>
+                <th>@Html.DisplayNameFor(model => model.PostLastModified)</th>
+                <th>@Html.DisplayNameFor(model => model.isPublished)</th>
+                <th>@Html.DisplayNameFor(model => model.PostCategory)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.PostTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PostShortDesc)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PostDatePub)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PostLastModified)</td>
+                    @if (item.isPublished)
+                    {
+                          <td>Yes</td> 
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+                    <td>@Html.DisplayFor(modelItem => item.PostCategory.CatName)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

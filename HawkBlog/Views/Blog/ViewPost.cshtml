@@ -2,15 +2,16 @@
 @{
     ViewData["Title"] = Model.PostTitle;
 }
+
 <div class="row">
     <div class="blog-post">
         <h2 class="blog-post-title">@Html.DisplayFor(model => model.PostTitle)</h2>
-        <p class="blog-post-meta">@Model.PostDatePub.ToString("D") in <a>@Html.DisplayFor(model => model.PostCategory.CatName)</a></p>
+        <p class="blog-post-meta">@Model.PostDatePub.ToString("D") in <a href="/Blog/Catagory/@Model.PostCategory.CatUrlSlug">@Html.DisplayFor(model => model.PostCategory.CatName)</a></p>
 
         @Html.Raw(Model.PostContent)
 
     </div><!-- /.blog-post -->
-    
+
     @await Html.PartialAsync("_Sidebar")
 </div>
 <small>Last modified on @Model.PostLastModified.ToString("D")</small>

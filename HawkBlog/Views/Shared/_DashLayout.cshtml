@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+    string userName = currentUser.UserName;
+}
+<!DOCTYPE html>
+<html>
+@await Html.PartialAsync("_HeadPartial")
+<body>
+    @await Html.PartialAsync("_NavPartial")
+
+    <div class="container-fluid">
+        <div class="row">
+            @await Html.PartialAsync("_DashNavPartial")
+
+            <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+                @RenderBody()
+            </main>
+
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_FootPartial")
+
+    @RenderSection("Scripts", required: false)
+    <script>
+        $("#logClick").click(function () {
+            $("form#logoutForm").submit();
+        });
+    </script>
+</body>
+</html>
