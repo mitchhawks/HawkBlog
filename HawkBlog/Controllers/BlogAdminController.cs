@@ -18,7 +18,7 @@ namespace HawkBlog.Controllers
         {
             _context = context;
         }
-
+        #region PostManagement
         [Route("BlogAdmin/Post/Index")]
         public async Task<IActionResult> PostIndex()
         {
@@ -155,5 +155,125 @@ namespace HawkBlog.Controllers
         {
             return _context.Post.Any(e => e.PostID == id);
         }
+        #endregion
+
+        #region CatagoryManagement
+        [Route("BlogAdmin/Category/Index")]
+        public async Task<IActionResult> CatIndex()
+        {
+            var applicationDbContext = _context.Category
+                .Include(p => p.PostsInCat);
+
+            return View("Category/CatIndex", await applicationDbContext.ToListAsync());
+        }
+
+        // GET: Blog/Create
+        [Route("BlogAdmin/Category/NewCat")]
+        public IActionResult NewCat()
+        {
+            return View("Category/NewCat");
+        }
+
+        // POST: Blog/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("BlogAdmin/Category/NewCat")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCat([Bind("CatID,CatName,CatDesc,CatUrlSlug")] Category cat)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(cat);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(CatIndex));
+            }
+            return View("Category/NewCat", cat);
+        }
+
+        [Route("BlogAdmin/Category/EditCat/{id}")]
+        // GET: Blog/Edit/5
+        public async Task<IActionResult> EditCat(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var cat = await _context.Category.SingleOrDefaultAsync(m => m.CatID == id);
+            if (cat == null)
+            {
+                return NotFound();
+            }
+            return View("Category/EditCat", cat);
+        }
+
+        // POST: Blog/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("BlogAdmin/Category/EditCat/{id}")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCat(int id, [Bind("CatID,CatName,CatDesc,CatUrlSlug")] Category cat)
+        {
+            if (id != cat.CatID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(cat);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PostExists(cat.CatID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(CatIndex));
+            }
+            return View("Category/EditCat", cat);
+        }
+
+        [Route("BlogAdmin/Category/DeleteCat/{id}")]
+        // GET: Blog/Delete/5
+        public async Task<IActionResult> DeleteCat(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var cat = await _context.Category
+                .SingleOrDefaultAsync(m => m.CatID == id);
+            if (cat == null)
+            {
+                return NotFound();
+            }
+
+            return View("Category/DeleteCat", cat);
+        }
+
+        // POST: Blog/Delete/5
+        [Route("BlogAdmin/Category/DeleteCat/{id}")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCat(int id)
+        {
+            var cat = await _context.Category.SingleOrDefaultAsync(m => m.CatID == id);
+            _context.Category.Remove(cat);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(CatIndex));
+        }
+        #endregion
     }
 }

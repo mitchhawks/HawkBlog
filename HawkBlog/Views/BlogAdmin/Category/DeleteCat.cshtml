@@ -1,0 +1,23 @@
+﻿@model HawkBlog.Models.Category
+
+@{
+    Layout = "_DashLayout";
+    ViewData["Title"] = "Delete Category";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete the category "@Html.DisplayNameFor(model => model.CatName)"? <span class="text-danger">THIS CANNOT BE UNDONE AND WILL DELETE ALL POSTS IN THE CATEGORY!</span></h3>
+<div>
+    <form asp-action="DeleteCat">
+        <input type="hidden" asp-for="CatID" />
+        <button type="submit" value="Delete" class="btn btn-danger"><i class="fas fa-check"></i> Yes</button> <a class="btn btn-info" asp-action="CatIndex"><i class="fas fa-times"></i> No</a>
+    </form>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#catHomeLink').addClass('active');
+        });
+    </script>
+}

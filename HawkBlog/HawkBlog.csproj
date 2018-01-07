@@ -5,6 +5,17 @@
     <UserSecretsId>aspnet-HawkBlog-08BE08D1-607E-40C9-8360-BE427DC26F63</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20180107053945_FixCascade.cs" />
+    <Compile Remove="Data\Migrations\20180107053945_FixCascade.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180107054455_FixCascad.cs" />
+    <Compile Remove="Data\Migrations\20180107054455_FixCascad.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180107054842_FixCascad.cs" />
+    <Compile Remove="Data\Migrations\20180107054842_FixCascad.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180107054947_FixRelationship.cs" />
+    <Compile Remove="Data\Migrations\20180107054947_FixRelationship.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
@@ -17,10 +28,6 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\BlogAdmin\Category\" />
   </ItemGroup>
 
 </Project>

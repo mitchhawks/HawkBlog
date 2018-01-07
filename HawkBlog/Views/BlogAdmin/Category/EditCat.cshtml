@@ -1,0 +1,57 @@
+﻿@model HawkBlog.Models.Category
+@{
+    ViewData["Title"] = "Edit Category";
+    Layout = "_DashLayout";
+}
+
+<h2>Edit Category</h2>
+
+<form asp-action="EditCat" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="CatName" class="control-label"></label>
+        <input asp-for="CatName" class="form-control" />
+        <span asp-validation-for="CatName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CatDesc" class="control-label"></label>
+        <input asp-for="CatDesc" class="form-control" />
+        <span asp-validation-for="CatDesc" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CatUrlSlug" class="control-label"></label>
+        <input asp-for="CatUrlSlug" class="form-control" /> <button type="button" onclick="genSlug()" class="btn btn-outline-info">Generate a Slug</button>
+        <span asp-validation-for="CatUrlSlug" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" value="Create" class="btn btn-success"><i class="fas fa-check"></i> Create</button> <a class="btn btn-danger" asp-action="CatIndex"><i class="fas fa-arrow-left"></i> Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        function genSlug() {
+            document.getElementById('CatUrlSlug').value = slugify(document.getElementById('CatName').value);
+        }
+
+        function slugify(text) {
+            return text.toString().toLowerCase()
+
+                .replace(/\s+/g, '-')           // Replace spaces with -
+
+                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+
+                .replace(/^-+/, '')             // Trim - from start of text
+
+                .replace(/-+$/, '');            // Trim - from end of text
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#catHomeLink').addClass('active');
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

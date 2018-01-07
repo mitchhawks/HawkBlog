@@ -10,16 +10,19 @@
 
     @if (User.IsInRole("Admin"))
     {
-        <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-                <a id="postHomeLink" class="nav-link" asp-controller="BlogAdmin" asp-action="PostIndex">Manage Posts</a>
-            </li>
-            <li class="nav-item">
-                <a id="userManLink" class="nav-link" asp-action="Index" asp-controller="UserAdmin">Manage Users</a>
-            </li>
-            <li class="nav-item">
-                <a id="roleManLink" class="nav-link" asp-action="Index" asp-controller="RoleAdmin">Manage Roles</a>
-            </li>
-        </ul>
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            <a id="postHomeLink" class="nav-link" asp-controller="BlogAdmin" asp-action="PostIndex">Manage Posts</a>
+        </li>
+        <li class="nav-item">
+            <a id="catHomeLink" class="nav-link" asp-controller="BlogAdmin" asp-action="CatIndex">Manage Categories</a>
+        </li>
+        <li class="nav-item">
+            <a id="userManLink" class="nav-link" asp-action="Index" asp-controller="UserAdmin">Manage Users</a>
+        </li>
+        <li class="nav-item">
+            <a id="roleManLink" class="nav-link" asp-action="Index" asp-controller="RoleAdmin">Manage Roles</a>
+        </li>
+    </ul>
     }
 </nav>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<HawkBlog.Models.Category>
+@{
+    ViewData["Title"] = "Manage Categories";
+    Layout = "_DashLayout";
+}
+
+<a asp-action="Index" asp-controller="Dashboard" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</a>
+
+<h2>Manage Categories</h2>
+<a asp-action="NewCat" class="btn btn-primary"><i class="fas fa-edit"></i> New Category</a>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Number of Posts</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><a asp-action="EditCat" asp-route-id="@item.CatID">@Html.DisplayFor(modelItem => item.CatName)</a></td>
+                    <td>@Html.DisplayFor(modelItem => item.CatDesc)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PostsInCat.Count)</td>
+                    <td><a class="btn btn-info" href="/Blog/Catagory/@item.CatUrlSlug"><i class="fas fa-eye"></i> View Posts</a> <a asp-action="DeleteCat" asp-route-id="@item.CatID" class="btn btn-danger"><i class="fas fa-minus-circle"></i> Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#catHomeLink').addClass('active');
+        });
+    </script>
+}
