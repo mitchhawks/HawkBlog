@@ -67,6 +67,11 @@ namespace HawkBlog.Controllers
                 return NotFound();
             }
 
+            if(!post.isPublished && !User.IsInRole("Admin"))
+            {
+                return NotFound();
+            }
+
             return View(post);
         }
 
@@ -120,6 +125,11 @@ namespace HawkBlog.Controllers
         [Route("Blog/Search")]
         public async Task<IActionResult> SearchPosts(string searchTerm, int page)
         {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return RedirectToAction("Index");
+            }
+
             if (page == 0)
             {
                 page = 1;
@@ -175,7 +185,7 @@ namespace HawkBlog.Controllers
 
             results = results.OrderByDescending(r => r.Rank).ToList();
 
-            float totalPosts = posts.ToList().Count();
+            float totalPosts = results.ToList().Count();
 
             float maxPage = totalPosts / 5;
 

@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using HawkBlog.Data;
 using HawkBlog.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HawkBlog.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BlogAdminController : Controller
     {
         private readonly ApplicationDbContext _context;

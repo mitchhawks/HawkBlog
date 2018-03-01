@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HawkBlog.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class RoleAdminController : Controller
     {
         private readonly RoleManager<ApplicationRole> roleManager;

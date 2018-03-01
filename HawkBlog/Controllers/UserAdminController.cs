@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HawkBlog.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UserAdminController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
