@@ -48,7 +48,7 @@ namespace HawkBlog.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        [Route("Blog/Post/{year}/{month}/{slug}")]
+        [Route("Blog/{year}/{month}/{slug}")]
         public async Task<IActionResult> ViewPost(int year, int month, string slug)
         {
             if (string.IsNullOrEmpty(slug))
@@ -59,7 +59,7 @@ namespace HawkBlog.Controllers
             ViewData["CatList"] = GetCatList();
 
             var post = await _context.Post
-                .Where(p => p.PostDatePub.Year == year && p.PostDatePub.Month == month && p.PostSlug.Equals(slug))
+                .Where(p => p.PostDatePub.Year == year && p.PostDatePub.Month == month && p.PostSlug.ToUpper().Equals(slug.ToUpper()))
                 .Include(p => p.PostCategory)
                 .SingleOrDefaultAsync();
             if (post == null)
@@ -91,10 +91,10 @@ namespace HawkBlog.Controllers
             }
 
             var cat = _context.Category
-                .Where(m => m.CatUrlSlug == catSlug)
+                .Where(m => m.CatUrlSlug.ToUpper() == catSlug.ToUpper())
                 .FirstOrDefaultAsync().Result;
 
-            if (cat.CatName == null)
+            if (cat == null)
             {
                 return NotFound();
             }

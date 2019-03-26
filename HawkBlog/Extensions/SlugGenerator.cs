@@ -9,7 +9,7 @@ namespace HawkBlog.Extensions
     {
         public string GenPostUrl(int year, int month, string postSlug)
         {
-            string url = "/Blog/Post/" + year + "/" + month + "/" + postSlug;
+            string url = "/Blog/" + year + "/" + month + "/" + postSlug;
             return url;
         }
     }
