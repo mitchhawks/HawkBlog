@@ -8,15 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
 namespace HawkBlog.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class RoleAdminController : Controller
+    public class RoleAdminController : BaseController
     {
         private readonly RoleManager<ApplicationRole> roleManager;
 
-        public RoleAdminController(RoleManager<ApplicationRole> roleManager)
+        public RoleAdminController(RoleManager<ApplicationRole> roleManager, IOptionsSnapshot<HawkBlogSettings> settingsOptions) : base(settingsOptions)
         {
             this.roleManager = roleManager;
         }

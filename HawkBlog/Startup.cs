@@ -35,6 +35,8 @@ namespace HawkBlog
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<HawkBlogSettings>(Configuration);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("BlogDBConnection")));
 

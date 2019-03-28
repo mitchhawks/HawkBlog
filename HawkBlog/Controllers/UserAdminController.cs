@@ -10,16 +10,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
 namespace HawkBlog.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class UserAdminController : Controller
+    public class UserAdminController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<ApplicationRole> roleManager;
 
-        public UserAdminController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public UserAdminController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, IOptionsSnapshot<HawkBlogSettings> settingsOptions) : base(settingsOptions)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;

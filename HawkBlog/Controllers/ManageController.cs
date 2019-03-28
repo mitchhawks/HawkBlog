@@ -13,12 +13,13 @@ using Microsoft.Extensions.Options;
 using HawkBlog.Models;
 using HawkBlog.Models.ManageViewModels;
 using HawkBlog.Services;
+using HawkBlog.Data;
 
 namespace HawkBlog.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -33,7 +34,7 @@ namespace HawkBlog.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder, IOptionsSnapshot<HawkBlogSettings> settingsOptions) : base(settingsOptions)
         {
             _userManager = userManager;
             _signInManager = signInManager;

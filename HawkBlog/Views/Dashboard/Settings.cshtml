@@ -1,0 +1,29 @@
+﻿@model HawkBlog.Models.HawkBlogSettingsModel
+
+@{
+    Layout = "_DashLayout";
+    ViewData["Title"] = "TestUpdate";
+}
+
+<h2>Edit Site Settings</h2>
+
+<form asp-action="UpdateSettings">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="SiteName" class="col-lg-3 col-sm-3 control-label"></label>
+        <div class="col-lg-6">
+            <input asp-for="SiteName" class="form-control" />
+            <span asp-validation-for="SiteName" class="text-danger"></span>
+        </div>
+    </div>
+    <a asp-action="Index" class="btn btn-danger"><i class="fas fa-arrow-left"></i> Cancel</a>
+    <button class="btn btn-success" type="submit"><i class="fas fa-check"></i> Save</button>
+</form>        
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#siteSettingsLink').addClass('active');
+        });
+    </script>
+}

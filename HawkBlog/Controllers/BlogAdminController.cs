@@ -8,15 +8,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace HawkBlog.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class BlogAdminController : Controller
+    public class BlogAdminController : BaseController
     {
         private readonly ApplicationDbContext _context;
 
-        public BlogAdminController(ApplicationDbContext context)
+        public BlogAdminController(ApplicationDbContext context, IOptionsSnapshot<HawkBlogSettings> settingsOptions) : base(settingsOptions)
         {
             _context = context;
         }

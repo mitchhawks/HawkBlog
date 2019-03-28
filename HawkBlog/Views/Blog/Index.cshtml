@@ -38,7 +38,7 @@
     <div class="container">
         @if (cat == null && searchTerm == null)
         {
-            <h1 class="blog-title">HawkBlog</h1>
+            <h1 class="blog-title">@ViewData["SiteName"]</h1>
             <p class="lead blog-description">A simple blog system built with ASP.Net Core</p>
         }
         else if (searchTerm != null)

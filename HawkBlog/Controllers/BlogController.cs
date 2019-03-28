@@ -8,14 +8,15 @@ using Microsoft.EntityFrameworkCore;
 using HawkBlog.Data;
 using HawkBlog.Models;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Options;
 
 namespace HawkBlog.Controllers
 {
-    public class BlogController : Controller
+    public class BlogController : BaseController
     {
         private readonly ApplicationDbContext _context;
 
-        public BlogController(ApplicationDbContext context)
+        public BlogController(ApplicationDbContext context, IOptionsSnapshot<HawkBlogSettings> settingsOptions) : base(settingsOptions)
         {
             _context = context;
         }

@@ -19,6 +19,12 @@ namespace HawkBlog
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile("Config/hawkblogsettings.json",
+                                        optional: false,        // File is not optional.
+                                        reloadOnChange: true);
+                })
                 .UseStartup<Startup>();
     }
 }
