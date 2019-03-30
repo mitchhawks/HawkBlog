@@ -1,1 +1,198 @@
-body{padding-top:50px;padding-bottom:20px}.body-content{padding-left:15px;padding-right:15px}.carousel-caption p{font-size:20px;line-height:1.4}.carousel-inner .item img[src$=".svg"]{width:100%}#qrCode{margin:15px}@media screen and (max-width:767px){.carousel-caption{display:none}}
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    padding-top: 3.5rem;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #f5f5f5;
+}
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+@media (min-width: 48em) {
+    html {
+        font-size: 18px;
+    }
+}
+
+/*
+ * Override Bootstrap's default container.
+ */
+.container {
+    max-width: 60rem;
+}
+
+/*
+ * Blog name and description
+ */
+.blog-header {
+    padding-bottom: 1.25rem;
+    margin-bottom: 2rem;
+    border-bottom: .05rem solid #eee;
+}
+
+.blog-title {
+    margin-bottom: 0;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.blog-description {
+    font-size: 1.1rem;
+    color: #999;
+}
+
+@media (min-width: 40em) {
+    .blog-title {
+        font-size: 3.5rem;
+    }
+}
+
+/*
+ * Main column and sidebar layout
+ */
+
+/* Sidebar modules for boxing content */
+.sidebar-module {
+    padding: 1rem;
+}
+
+.sidebar-module-inset {
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: .25rem;
+}
+
+    .sidebar-module-inset p:last-child,
+    .sidebar-module-inset ul:last-child,
+    .sidebar-module-inset ol:last-child {
+        margin-bottom: 0;
+    }
+
+/* Pagination */
+.blog-pagination {
+    margin-bottom: 4rem;
+}
+
+    .blog-pagination > .btn {
+        border-radius: 2rem;
+    }
+
+/*
+ * Blog posts
+ */
+.blog-post {
+    margin-bottom: 4rem;
+}
+
+.blog-post-title {
+    margin-bottom: .25rem;
+    font-size: 2.5rem;
+}
+
+.blog-post-meta {
+    margin-bottom: 1.25rem;
+    color: #999;
+}
+
+/*
+ * Footer
+ */
+.blog-footer {
+    padding: 2.5rem 0;
+    color: #999;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: .05rem solid #e5e5e5;
+}
+
+    .blog-footer p:last-child {
+        margin-bottom: 0;
+    }
+
+
+body > .container {
+    padding: 60px 15px 0;
+}
+
+code {
+    font-size: 80%;
+}
+
+
+/*
+ * Typography
+ */
+
+h1 {
+    padding-bottom: 9px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 20px 0;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    border-right: 1px solid #eee;
+}
+
+    .sidebar .nav {
+        margin-bottom: 20px;
+    }
+
+    .sidebar .nav-item {
+        width: 100%;
+    }
+
+        .sidebar .nav-item + .nav-item {
+            margin-left: 0;
+        }
+
+    .sidebar .nav-link {
+        border-radius: 0;
+    }
+
+/*
+ * Dashboard
+ */
+
+/* Placeholders */
+.placeholders {
+    padding-bottom: 3rem;
+}
+
+.placeholder img {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
