@@ -1,7 +1,15 @@
 ﻿<header>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@ViewData["SiteName"]</a>
+        @if (String.IsNullOrWhiteSpace(ViewData["LogoPath"].ToString()))
+        {
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@ViewData["SiteName"]</a>
+        }
+        else
+        {
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img alt="@ViewData["SiteName"]" src="@ViewData["LogoPath"]" /></a>
+        }
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,7 +23,7 @@
                 <input type="search" class="form-control mr-sm-2" id="searchTerm" name="searchTerm" placeholder="Search Posts..." aria-label="Search" autocomplete="off">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-            
+
         </div>
     </nav>
 </header>

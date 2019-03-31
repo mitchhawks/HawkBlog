@@ -2,18 +2,27 @@
 
 @{
     Layout = "_DashLayout";
-    ViewData["Title"] = "TestUpdate";
+    ViewData["Title"] = "Site Settings";
 }
 
 <h2>Edit Site Settings</h2>
 
-<form asp-action="UpdateSettings">
+<form asp-action="UpdateSettings" enctype="multipart/form-data" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h4 class="text-danger">@ViewData["ErrorMessage"]</h4>
     <div class="form-group">
         <label asp-for="SiteName" class="col-lg-3 col-sm-3 control-label"></label>
         <div class="col-lg-6">
             <input asp-for="SiteName" class="form-control" />
             <span asp-validation-for="SiteName" class="text-danger"></span>
+        </div><br/>
+        <div class="form-group">
+            <label class="col-lg-3 col-sm-3 control-label">Logo</label>
+            <div class="col-lg-6">
+                <input type="file" class="dropify" name="files" />
+                <label asp-for="RemovePhoto"></label>
+                <input asp-for="RemovePhoto" />
+            </div>
         </div>
     </div>
     <a asp-action="Index" class="btn btn-danger"><i class="fas fa-arrow-left"></i> Cancel</a>

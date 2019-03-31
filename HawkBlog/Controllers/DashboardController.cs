@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using HawkBlog.Data;
 using HawkBlog.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +20,11 @@ namespace HawkBlog.Controllers
     [Authorize]
     public class DashboardController : BaseController
     {
+        private IHostingEnvironment _environment;
 
-        public DashboardController(IOptionsSnapshot<HawkBlogSettings> settingsOptions) : base(settingsOptions)
+        public DashboardController(IOptionsSnapshot<HawkBlogSettings> settingsOptions, IHostingEnvironment environment) : base(settingsOptions)
         {
-            
+            _environment = environment;
         }
 
 
@@ -43,14 +46,37 @@ namespace HawkBlog.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> UpdateSettings([Bind("SiteName")] HawkBlogSettingsModel settings)
+        public async Task<IActionResult> UpdateSettings([Bind("SiteName,RemovePhoto")] HawkBlogSettingsModel settings, ICollection<IFormFile> files)
         {
             if (ModelState.IsValid)
             {
-                JObject WebSettings = (JObject)JToken.FromObject(settings);
+                
                 // write JSON directly to a file
                 try
                 {
+                    var uploads = Path.Combine(_environment.WebRootPath, "images/");
+                    foreach (var file in files)
+                    {
+                        if (file.Length > 0)
+                        {
+                            using (var fileStream = new FileStream(Path.Combine(uploads, "logo" + Path.GetExtension(file.FileName)), FileMode.Create))
+                            {
+                                await file.CopyToAsync(fileStream);
+                                settings.LogoPath = "/images/logo" + Path.GetExtension(file.FileName);
+                            }
+                            
+                        }
+                    }
+                    if (files.Count == 0)
+                    {
+                        settings.LogoPath = _settings.LogoPath;
+                    }
+                    if (settings.RemovePhoto)
+                    {
+                        settings.LogoPath = null;
+                    }
+                    JObject WebSettings = (JObject)JToken.FromObject(settings);
+
                     using (StreamWriter file = System.IO.File.CreateText("Config/HawkBlogSettings.json"))
                     using (JsonTextWriter writer = new JsonTextWriter(file))
                     {
@@ -61,13 +87,22 @@ namespace HawkBlog.Controllers
                     await Task.Delay(300);
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch (Exception e)
                 {
-                    return View(settings);
+                    if (_environment.EnvironmentName == "Development")
+                    {
+                        ViewData["ErrorMessage"] = e.Message;
+                    }
+                    else
+                    {
+                        ViewData["ErrorMessage"] = "An error has occured. Please check your input and try again";
+                    }
+                    return View("Settings", settings);
                 }
             }
 
-            return View(settings);
+            ViewData["ErrorMessage"] = "An error has occured. Please check your input and try again";
+            return View("Settings", settings);
         }
     }
 }

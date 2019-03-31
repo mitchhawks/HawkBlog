@@ -8,5 +8,7 @@ namespace HawkBlog.Data
     public class HawkBlogSettings
     {
         public string SiteName { get; set; }
+
+        public string LogoPath { get; set; }
     }
 }

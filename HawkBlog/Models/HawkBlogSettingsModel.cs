@@ -11,5 +11,10 @@ namespace HawkBlog.Models
         [Required]
         [Display(Name = "Site Name", Description = "The name of your site")]
         public string SiteName { get; set; }
+
+        public string LogoPath { get; set; }
+
+        [Display(Name = "Remove Photo?")]
+        public bool RemovePhoto { get; set; }
     }
 }

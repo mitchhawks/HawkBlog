@@ -46,9 +46,10 @@ namespace HawkBlog.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationRole applicationRole = new ApplicationRole();
-
-                applicationRole.Name = model.RoleName;
+                ApplicationRole applicationRole = new ApplicationRole
+                {
+                    Name = model.RoleName
+                };
                 IdentityResult roleResult = await roleManager.CreateAsync(applicationRole);
                 if (roleResult.Succeeded)
                 {

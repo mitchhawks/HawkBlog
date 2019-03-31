@@ -11,7 +11,7 @@ namespace HawkBlog.Controllers
 {
     public class BaseController : Controller
     {
-        private readonly HawkBlogSettings _settings;
+        protected readonly HawkBlogSettings _settings;
 
         public BaseController(IOptionsSnapshot<HawkBlogSettings> settingsOptions)
         {
@@ -20,7 +20,8 @@ namespace HawkBlog.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            ViewData["SiteName"] = _settings.SiteName; //Add whatever
+            ViewData["SiteName"] = _settings.SiteName;
+            ViewData["LogoPath"] = _settings.LogoPath;
             base.OnActionExecuting(filterContext);
         }
     }
