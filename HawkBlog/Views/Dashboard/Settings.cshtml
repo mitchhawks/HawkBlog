@@ -15,11 +15,11 @@
         <div class="col-lg-6">
             <input asp-for="SiteName" class="form-control" />
             <span asp-validation-for="SiteName" class="text-danger"></span>
-        </div><br/>
+        </div><br />
         <div class="form-group">
             <label class="col-lg-3 col-sm-3 control-label">Logo</label>
             <div class="col-lg-6">
-                <input type="file" class="dropify" name="files" />
+                <input type="file" class="dropify" data-default-file="@Model.LogoPath" data-max-width="200" data-max-height="40" name="files" />
                 <label asp-for="RemovePhoto"></label>
                 <input asp-for="RemovePhoto" />
             </div>
@@ -27,12 +27,23 @@
     </div>
     <a asp-action="Index" class="btn btn-danger"><i class="fas fa-arrow-left"></i> Cancel</a>
     <button class="btn btn-success" type="submit"><i class="fas fa-check"></i> Save</button>
-</form>        
+</form>
 
 @section Scripts{
     <script>
         $(document).ready(function () {
             $('#siteSettingsLink').addClass('active');
+        });
+    </script>
+    <script src="~/lib/dropify/js/dropify.min.js"></script>
+    <script>
+        $('.dropify').dropify({
+            messages: {
+                'default': 'Drag image here or click to upload',
+                'replace': 'Drag and drop or click here to replace image',
+                'remove': 'Remove Image',
+                'error': 'Errors have occured. We won\'t tell you where or why. Lazy programmers.'
+            }
         });
     </script>
 }

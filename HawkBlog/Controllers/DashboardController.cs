@@ -39,7 +39,8 @@ namespace HawkBlog.Controllers
         {
             HawkBlogSettingsModel settings = new HawkBlogSettingsModel
             {
-                SiteName = ViewData["SiteName"].ToString()
+                SiteName = ViewData["SiteName"].ToString(),
+                LogoPath = ViewData["LogoPath"].ToString()
             };
             return View(settings);
         }
