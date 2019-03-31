@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -21,10 +22,12 @@ namespace HawkBlog.Controllers
     public class DashboardController : BaseController
     {
         private IHostingEnvironment _environment;
+        private readonly ILogger _logger;
 
-        public DashboardController(IOptionsSnapshot<HawkBlogSettings> settingsOptions, IHostingEnvironment environment) : base(settingsOptions)
+        public DashboardController(IOptionsSnapshot<HawkBlogSettings> settingsOptions, IHostingEnvironment environment, ILogger<DashboardController> logger) : base(settingsOptions)
         {
             _environment = environment;
+            _logger = logger;
         }
 
 
@@ -96,6 +99,7 @@ namespace HawkBlog.Controllers
                     }
                     else
                     {
+                        _logger.LogCritical(e.Message);
                         ViewData["ErrorMessage"] = "An error has occured. Please check your input and try again";
                     }
                     return View("Settings", settings);

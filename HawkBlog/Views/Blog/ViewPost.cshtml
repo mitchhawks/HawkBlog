@@ -15,3 +15,11 @@
     @await Html.PartialAsync("_Sidebar")
 </div>
 <small>Last modified on @Model.PostLastModified.ToString("D")</small>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#blogHomeLink').addClass('active');
+        });
+    </script>
+}

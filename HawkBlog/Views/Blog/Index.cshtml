@@ -47,7 +47,7 @@
             <p class="lead blog-description">Results for "@searchTerm"</p>
         }
         else
-        { 
+        {
             <h1 class="blog-title">@cat.CatName</h1>
             <p class="lead blog-description">@cat.CatDesc</p>
         }
@@ -83,3 +83,11 @@
     @await Html.PartialAsync("_Sidebar")
 
 </div><!-- /.row -->
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#blogHomeLink').addClass('active');
+        });
+    </script>
+}
